@@ -1,41 +1,68 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { useForm, ValidationError } from "@formspree/react";
+import { FormEvent, useRef, useState } from "react";
+
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
+const formEndpoint = "https://formspree.io/f/xdavbvdg";
 
 export default function QuoteForm() {
-  const [state, handleSubmit] = useForm("xdavbvdg");
-  const [contactError, setContactError] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [message, setMessage] = useState("");
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
-    const formData = new FormData(event.currentTarget);
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const phone = String(formData.get("phone") || "").trim();
     const email = String(formData.get("email") || "").trim();
 
     if (!phone && !email) {
-      event.preventDefault();
-      setContactError("Please enter a phone number or email so we can reply.");
+      setStatus("error");
+      setMessage("Please enter a phone number or email so we can reply.");
       return;
     }
 
-    setContactError("");
-    handleSubmit(event);
-  }
+    setStatus("submitting");
+    setMessage("");
 
-  if (state.succeeded) {
-    return (
-      <div className="quote-success" role="status">
-        <h3>Thanks, your quote request was sent.</h3>
-        <p>
-          Ojemko will follow up as soon as possible. You can also call or text
-          613-416-7785.
-        </p>
-      </div>
-    );
+    try {
+      const response = await fetch(formEndpoint, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        const formspreeError =
+          data?.errors?.[0]?.message ||
+          "The form could not be sent. Please call or text 613-416-7785.";
+
+        setStatus("error");
+        setMessage(formspreeError);
+        return;
+      }
+
+      formRef.current?.reset();
+      setStatus("success");
+      setMessage(
+        "Thanks, your quote request was sent. Ojemko will follow up as soon as possible."
+      );
+    } catch {
+      setStatus("error");
+      setMessage(
+        "The form could not connect. Please call or text 613-416-7785."
+      );
+    }
   }
 
   return (
-    <form className="quote-form" onSubmit={onSubmit}>
+    <form ref={formRef} className="quote-form" onSubmit={onSubmit}>
       <input
         type="hidden"
         name="_subject"
@@ -44,11 +71,6 @@ export default function QuoteForm() {
       <label>
         Name
         <input name="name" type="text" placeholder="Your name" required />
-        <ValidationError
-          className="field-error"
-          field="name"
-          errors={state.errors}
-        />
       </label>
       <label>
         Phone
@@ -57,17 +79,7 @@ export default function QuoteForm() {
       <label>
         Email
         <input name="email" type="email" placeholder="Your email" />
-        <ValidationError
-          className="field-error"
-          field="email"
-          errors={state.errors}
-        />
       </label>
-      {contactError ? (
-        <p className="form-message error full" role="alert">
-          {contactError}
-        </p>
-      ) : null}
       <label className="full">
         Message
         <textarea
@@ -76,15 +88,22 @@ export default function QuoteForm() {
           rows={5}
           required
         />
-        <ValidationError
-          className="field-error"
-          field="message"
-          errors={state.errors}
-        />
       </label>
-      <ValidationError className="form-message error full" errors={state.errors} />
-      <button className="button primary full" type="submit" disabled={state.submitting}>
-        {state.submitting ? "Sending..." : "Send Quote Request"}
+      {message ? (
+        <p
+          className={`form-message ${status === "success" ? "success" : "error"} full`}
+          role={status === "error" ? "alert" : "status"}
+          aria-live="polite"
+        >
+          {message}
+        </p>
+      ) : null}
+      <button
+        className="button primary full"
+        type="submit"
+        disabled={status === "submitting"}
+      >
+        {status === "submitting" ? "Sending..." : "Send Quote Request"}
       </button>
     </form>
   );
