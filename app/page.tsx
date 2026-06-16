@@ -1,4 +1,5 @@
 import Image from "next/image";
+import QuoteForm from "./quote-form";
 
 const company = {
   name: "Ojemko",
@@ -129,40 +130,7 @@ export default function Home() {
             text {company.phone} if that is easier.
           </p>
         </div>
-        <form
-          className="quote-form"
-          action="https://formspree.io/f/xdavbvdg"
-          method="POST"
-        >
-          <input
-            type="hidden"
-            name="_subject"
-            value="New Ojemko window cleaning quote request"
-          />
-          <label>
-            Name
-            <input name="name" type="text" placeholder="Your name" required />
-          </label>
-          <label>
-            Phone
-            <input name="phone" type="tel" placeholder="Your phone" />
-          </label>
-          <label>
-            Email
-            <input name="email" type="email" placeholder="Your email" />
-          </label>
-          <label className="full">
-            Message
-            <textarea
-              name="message"
-              placeholder="Tell us about the property, window count if you know it, timing, and anything special to know."
-              rows={5}
-            />
-          </label>
-          <button className="button primary full" type="submit">
-            Send Quote Request
-          </button>
-        </form>
+        <QuoteForm />
       </section>
 
       <footer className="footer">

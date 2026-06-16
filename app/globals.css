@@ -187,6 +187,11 @@ p {
   box-shadow: 0 14px 30px rgba(19, 135, 151, 0.26);
 }
 
+.button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .button.secondary {
   border: 1px solid rgba(255, 255, 255, 0.4);
   color: var(--white);
@@ -384,6 +389,35 @@ textarea {
 
 .full {
   grid-column: 1 / -1;
+}
+
+.field-error,
+.form-message {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.field-error,
+.form-message.error {
+  color: #a33a2b;
+}
+
+.quote-success {
+  border: 1px solid rgba(19, 135, 151, 0.24);
+  border-radius: 8px;
+  background: var(--soft);
+  padding: 26px;
+}
+
+.quote-success h3 {
+  margin-bottom: 10px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+}
+
+.quote-success p {
+  margin-bottom: 0;
 }
 
 .footer {
