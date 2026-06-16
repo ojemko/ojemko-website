@@ -129,7 +129,16 @@ export default function Home() {
             text {company.phone} if that is easier.
           </p>
         </div>
-        <form className="quote-form">
+        <form
+          className="quote-form"
+          action="https://formspree.io/f/xdavbvdg"
+          method="POST"
+        >
+          <input
+            type="hidden"
+            name="_subject"
+            value="New Ojemko window cleaning quote request"
+          />
           <label>
             Name
             <input name="name" type="text" placeholder="Your name" required />
