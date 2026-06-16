@@ -62,7 +62,13 @@ export default function QuoteForm() {
   }
 
   return (
-    <form ref={formRef} className="quote-form" onSubmit={onSubmit}>
+    <form
+      ref={formRef}
+      className="quote-form"
+      action={formEndpoint}
+      method="POST"
+      onSubmit={onSubmit}
+    >
       <input
         type="hidden"
         name="_subject"
