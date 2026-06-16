@@ -9,19 +9,18 @@ const company = {
 };
 
 const reasons = [
-  "Reliable arrival windows",
+  "Reliable arrival times",
   "Professional communication",
-  "Careful with homes and furniture",
+  "Respectful of your home and furniture",
   "Transparent pricing",
-  "Local service",
-  "Satisfaction focused"
+  "Local service"
 ];
 
 const steps = [
   "Request a quote",
   "Schedule service",
   "We clean",
-  "Enjoy the result"
+  "You enjoy the result"
 ];
 
 export default function Home() {
@@ -57,8 +56,8 @@ export default function Home() {
           <p className="eyebrow">Premium local window cleaning</p>
           <h1>Crystal-clear windows and careful service you can trust.</h1>
           <p className="hero-copy">
-            A calm, professional window cleaning service in Rockland, Ontario,
-            built on punctuality, respect, and a polished result.
+            A professional window cleaning service in Rockland, Ontario, built
+            on punctuality, respect, and a polished result.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#quote">
@@ -73,7 +72,7 @@ export default function Home() {
 
       <section className="section intro-band" aria-label="Company highlights">
         <div className="stat">
-          <strong>Window-first</strong>
+          <strong>Pristine clean</strong>
           <span>Focused on clearer glass</span>
         </div>
         <div className="stat">
@@ -81,7 +80,7 @@ export default function Home() {
           <span>{company.area}</span>
         </div>
         <div className="stat">
-          <strong>Straightforward</strong>
+          <strong>Upfront pricing</strong>
           <span>Clear quotes before work begins</span>
         </div>
       </section>
@@ -127,7 +126,7 @@ export default function Home() {
           <h2>Tell us about your windows.</h2>
           <p>
             Send your contact details and a short note. You can also call or
-            text {company.phone} if that is easier.
+            text {company.phone}.
           </p>
         </div>
         <QuoteForm />

@@ -90,7 +90,7 @@ export default function QuoteForm() {
         Message
         <textarea
           name="message"
-          placeholder="Tell us about the property, window count if you know it, timing, and anything special to know."
+          placeholder="Let us know anything relevant for your quote."
           rows={5}
           required
         />
